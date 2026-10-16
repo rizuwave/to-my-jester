@@ -1858,11 +1858,10 @@ function animate() {
         );
 
     // ZOOM SUAVE
-
-     const zoomLerp =
+        const zoomLerp =
         1 -
         Math.pow(
-            1 - 0.08,
+            1 - 0.045,
             delta * 60
         );
 
@@ -1930,19 +1929,13 @@ function animate() {
         if (galaxyGroup) {
 
         galaxyGroup.rotation.y +=
-            0.0022;
-
+            0.0012;
     }
 
 
     if (capaDifusaGroup) {
-
-        // Al ser hija de galaxyGroup, restarle el
-        // doble hace que, en el mundo, gire igual de
-        // rápido que los brazos pero en sentido
-        // contrario.
         capaDifusaGroup.rotation.y -=
-            0.0022 * 2;
+            0.0012 * 2;
 
     }
 
@@ -1954,10 +1947,10 @@ function animate() {
     if (starField) {
 
         starField.rotation.y +=
-            0.0005;
+            0.0003;
 
         starField.rotation.x +=
-            0.00017;
+            0.00010;
 
         starField.material.opacity =
         0.82 +
