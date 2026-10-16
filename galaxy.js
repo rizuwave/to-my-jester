@@ -36,7 +36,7 @@ let angularVelocity = { x: 0, y: 0 };
 let dragDX = 0;
 let dragDY = 0;
 const ROT_SENSITIVITY = 0.0019;
-const DAMPING = 0.90;
+const DAMPING = 0.96;
 
 // --- Zoom de la camaraaa
 let camDir = new THREE.Vector3(0, 1.2, 9.5).normalize();
@@ -1859,10 +1859,10 @@ function animate() {
 
     // ZOOM SUAVE
 
-    const zoomLerp =
+     const zoomLerp =
         1 -
         Math.pow(
-            1 - 0.15,
+            1 - 0.08,
             delta * 60
         );
 
@@ -1927,10 +1927,10 @@ function animate() {
     // GALAXIA
     // ================================================
 
-    if (galaxyGroup) {
+        if (galaxyGroup) {
 
         galaxyGroup.rotation.y +=
-            0.0045;
+            0.0022;
 
     }
 
@@ -1942,7 +1942,7 @@ function animate() {
         // rápido que los brazos pero en sentido
         // contrario.
         capaDifusaGroup.rotation.y -=
-            0.0045 * 2;
+            0.0022 * 2;
 
     }
 
@@ -1954,10 +1954,10 @@ function animate() {
     if (starField) {
 
         starField.rotation.y +=
-            0.00105;
+            0.0005;
 
         starField.rotation.x +=
-            0.00035;
+            0.00017;
 
         starField.material.opacity =
         0.82 +
