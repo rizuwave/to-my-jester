@@ -51,6 +51,7 @@ let targetCamDistance =
 
 const MIN_DISTANCE = 3.2;
 const MAX_DISTANCE = 35;
+let zoomVelocity = 0;
 
 // Pellizcar con dos dedos (zoom táctil)
 let distanciaPellizcoAnterior = null;
@@ -1174,7 +1175,7 @@ const cards = [
     {
         title: "Tu extraño pero adictivo encanto",
         text:
-            "Y simplemente sucede cuando eres tú. Adoro el hecho de que puedas hablar de casi cualquier cosa, aunque no tengas ni idea o sin tener temas de conversación frente a personas completamente distintas porque, aun así, conservas intacta esa risa tan característica que amo, ese humor que inevitablemente termina dejando tu huella y el cual entiendo totalmente, me gusta incluso tu franqueza, esa manera de decir lo que piensas cuando consideras que corresponde, sin disfrazar innecesariamente aquello que quieres expresar. Eres increíble amor, porque no intentas convertirte en alguien agradable para todos. Eres tú, con tu humor, tu sinceridad y tus rarezas que me enloquecen y de alguna manera consigues caerle bien a todos.",
+            "Y simplemente sucede cuando eres tú. Adoro el hecho de que puedas hablar de casi cualquier cosa, aunque no tengas ni idea de ello o sin tener temas de conversación fijos, porque, aun así, conservas intacta esa risa tan característica que amo, ese humor que inevitablemente termina dejando tu huella y el cual entiendo totalmente, me gusta incluso tu franqueza, esa manera de decir lo que piensas cuando consideras que corresponde, sin disfrazar innecesariamente aquello que quieres expresar. Eres increíble amor, porque no intentas convertirte en alguien agradable para todos. Eres tú, con tu humor, tu sinceridad y tus rarezas que me enloquecen. Te amo tal cual, no cambies nunca eso.",
         color:
             0xa8737a
     },
@@ -1707,18 +1708,8 @@ function updateCameraPosition() {
 
 function onWheel(event) {
 
-    event.preventDefault();
-    targetCamDistance +=
-        event.deltaY * 0.004;
-
-
-    targetCamDistance =
-        THREE.MathUtils.clamp(
-
-            targetCamDistance,
-            MIN_DISTANCE,
-            MAX_DISTANCE
-        );
+        zoomVelocity +=
+        event.deltaY * 0.0006;
 
 }
 
@@ -1790,16 +1781,8 @@ function onTouchMove(event) {
                 distanciaActual -
                 distanciaPellizcoAnterior;
 
-            targetCamDistance -=
-                diferencia * 0.02;
-
-            targetCamDistance =
-                THREE.MathUtils.clamp(
-
-                    targetCamDistance,
-                    MIN_DISTANCE,
-                    MAX_DISTANCE
-                );
+                zoomVelocity =
+                -diferencia * 0.015;
 
         }
 
@@ -1834,18 +1817,23 @@ function animate() {
         );
 
     // ZOOM SUAVE
-        const zoomLerp =
-        1 -
-        Math.pow(
-            1 - 0.065,
-            delta * 60
-        );
+           camDistance +=
+        zoomVelocity * delta * 60;
 
-    camDistance +=
-        (
-            targetCamDistance -
-            camDistance
-        ) * zoomLerp;
+    zoomVelocity *=
+        Math.pow(0.93, delta * 60);
+
+    if (Math.abs(zoomVelocity) < 0.0001) {
+        zoomVelocity = 0;
+    }
+
+    if (camDistance < MIN_DISTANCE) {
+        camDistance = MIN_DISTANCE;
+        zoomVelocity = 0;
+    } else if (camDistance > MAX_DISTANCE) {
+        camDistance = MAX_DISTANCE;
+        zoomVelocity = 0;
+    }
 
     updateCameraPosition();
     // ================================================
@@ -1900,13 +1888,13 @@ function animate() {
         if (galaxyGroup) {
 
         galaxyGroup.rotation.y +=
-            0.0010;
+            0.0006;
     }
 
 
     if (capaDifusaGroup) {
         capaDifusaGroup.rotation.y -=
-            0.0010 * 2;
+            0.0006 * 2;
 
     }
 
@@ -1918,10 +1906,10 @@ function animate() {
     if (starField) {
 
         starField.rotation.y +=
-            0.0003;
+            0.00025;
 
         starField.rotation.x +=
-            0.00010;
+            0.00006;
 
         starField.material.opacity =
         0.82 +
