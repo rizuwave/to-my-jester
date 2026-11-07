@@ -223,8 +223,6 @@ function init() {
         0
     );
 
-    // Objeto independiente: no gira con la galaxia,
-    // igual que el fondo de estrellas.
     scene.add(
         luzCentral
     );
@@ -647,8 +645,6 @@ function buildGalaxy(count) {
             opacidad: 0.8
         });
 
-    // Grupo propio para poder rotar esta capa por su
-    // cuenta, en sentido contrario a los brazos.
     capaDifusaGroup =
         new THREE.Group();
     capaDifusaGroup.add(
@@ -976,7 +972,7 @@ function buildCoreGlow() {
 }
 
 // ======================================================
-// ESTRELLA CENTRAL
+// ESTRELLA CENTRAL - debi haber puesto una mejor??'
 // ======================================================
 
 function buildCentralStar() {
@@ -1325,7 +1321,7 @@ function buildCards() {
 
 
             // ========================================
-            // HALO NEGRO (detrás, oscurece el fondo)
+            // HALO NEGRO 
             // ========================================
 
             const halo =
@@ -1361,7 +1357,7 @@ function buildCards() {
 
 
             // ========================================
-            // MINI ESTRELLA (encima, brillante)
+            // MINI ESTRELLA 
             // ========================================
 
             const miniEstrella =
@@ -1555,9 +1551,6 @@ function onPointerMove(event) {
     lastX = event.clientX;
     lastY = event.clientY;
 
-    // Se acumula aquí y se aplica una sola vez por
-    // cuadro en animate(), para que no dependa de
-    // cuántas veces dispare el navegador este evento.
     dragDX += dx;
     dragDY += dy;
 
@@ -1594,8 +1587,7 @@ function onPointerUp(event) {
         performance.now() -
         pointerDownTime;
 
-    // Si apenas se movió, interpretamos
-    // el gesto como un click.
+
     if (
         distancia < 8 &&
         tiempo < 450
@@ -1658,13 +1650,7 @@ function onPointerUp(event) {
 
 
 // ======================================================
-// ROTAR EL UNIVERSO
-// ======================================================
-// Trackball libre: la rotación se aplica alrededor de
-// los ejes "arriba" y "derecha" de la propia cámara,
-// así nunca hay gimbal lock y se puede girar el
-// universo completamente en cualquier dirección, como
-// si fuera un objeto independiente en la mano.
+// ROTAR 
 
 function rotateUniverse(dx, dy) {
 
@@ -1701,7 +1687,7 @@ function rotateUniverse(dx, dy) {
 }
 
 // ======================================================
-// CÁMARA FIJA (solo la distancia cambia con el zoom)
+// CÁMARA FIJA 
 // ======================================================
 
 function updateCameraPosition() {
@@ -1722,8 +1708,6 @@ function updateCameraPosition() {
 function onWheel(event) {
 
     event.preventDefault();
-    // Convertimos el movimiento de la rueda
-    // en un nuevo destino, no en un salto.
     targetCamDistance +=
         event.deltaY * 0.004;
 
@@ -1740,7 +1724,7 @@ function onWheel(event) {
 
 
 // ======================================================
-// PELLIZCAR CON DOS DEDOS (zoom en móvil)
+// zoom en móvil
 // ======================================================
 
 function distanciaEntreDedos(touches) {
@@ -1775,9 +1759,6 @@ function onTouchStart(event) {
     if (event.touches.length === 2) {
 
         event.preventDefault();
-
-        // Al empezar el pellizco soltamos el
-        // arrastre de un dedo, si estaba activo.
         isDragging = false;
 
         angularVelocity.x = 0;
@@ -1809,8 +1790,6 @@ function onTouchMove(event) {
                 distanciaActual -
                 distanciaPellizcoAnterior;
 
-            // Separar los dedos acerca la cámara,
-            // juntarlos la aleja (como en fotos/mapas).
             targetCamDistance -=
                 diferencia * 0.02;
 
@@ -1848,9 +1827,6 @@ function animate() {
     const tiempo =
         performance.now();
 
-    // Tiempo real transcurrido desde el cuadro anterior,
-    // para que el giro y el zoom se sientan igual de
-    // fluidos sin importar la velocidad de fotogramas.
     const delta =
         Math.min(
             reloj.getDelta(),
@@ -1861,7 +1837,7 @@ function animate() {
         const zoomLerp =
         1 -
         Math.pow(
-            1 - 0.045,
+            1 - 0.065,
             delta * 60
         );
 
@@ -1872,11 +1848,6 @@ function animate() {
         ) * zoomLerp;
 
     updateCameraPosition();
-    // ================================================
-    // GIRO: se aplica el arrastre acumulado del cuadro
-    // (fluido, sin importar cuántos eventos de mouse
-    // hayan llegado) y, al soltar, sigue con inercia
-    // que se frena sola.
     // ================================================
 
     if (isDragging) {
@@ -1929,13 +1900,13 @@ function animate() {
         if (galaxyGroup) {
 
         galaxyGroup.rotation.y +=
-            0.0012;
+            0.0010;
     }
 
 
     if (capaDifusaGroup) {
         capaDifusaGroup.rotation.y -=
-            0.0012 * 2;
+            0.0010 * 2;
 
     }
 
@@ -2011,8 +1982,7 @@ function animate() {
 
 
     // ================================================
-    // MINI ESTRELLAS (pulso suave, cada una con su
-    // propio ritmo para que no palpiten sincronizadas)
+    // MINI ESTRELLAS
     // ================================================
 
     cardNodes.forEach(
@@ -2043,8 +2013,7 @@ function animate() {
 
 
     // ================================================
-    // MINI ESTRELLAS (parpadeo/pulso, cada una a su
-    // propio ritmo, usando su fase aleatoria)
+    // MINI ESTRELLAS (parpadeo/pulso)
     // ================================================
 
     cardNodes.forEach(
