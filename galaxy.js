@@ -1151,7 +1151,7 @@ const cards = [
     {
         title: "El bufón de mi reino",
         text:
-            "Como ya ambos sabemos, si tuviera que nombrarte con algún personaje dentro de mi pequeño reino, serías mi bufón, no porque seas menos solemne, sino porque tienes el extraño privilegio de entrar en mi corazón y hacer reír hasta a las partes de mí que habían olvidado cómo hacerlo. Me haces reír todos los días, incluso cuando no lo pretendes, y literalmente has convertido la alegría en una costumbre que lleva tu nombre. A mi chico que hace de un dia ordinario una pequeña alegria. ",
+            "Como ya ambos sabemos, si tuviera que nombrarte con algún personaje dentro de mi pequeño reino, serías mi bufón, no porque seas menos solemne o digno, sino porque tienes el extraño privilegio de entrar en mi corazón y hacer reír hasta las partes de mí que habían olvidado cómo hacerlo. Me haces reír todos los días, incluso cuando no lo pretendes, y literalmente has convertido la alegría en una costumbre que lleva tu nombre, eres mi pensamiendo y risa secreta, mi amado a quien deseo cuidar en sus mejores y peores momentos, tenerlo, y hacerlo feliz tanto como él me hace a mí. A mi chico que hace de un dia ordinario una pequeña alegria. ",
         color:
             0xc08388
     },
